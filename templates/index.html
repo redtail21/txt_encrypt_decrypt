@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Encrypt and Decrypt</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script>
+        function copyToClipboard(elementId) {
+            const text = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Copied to clipboard');
+            }).catch(err => {
+                alert('Failed to copy: ', err);
+            });
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Encrypt and Decrypt Text</h1>
+        <form action="/encrypt" method="post">
+            <textarea name="plaintext" placeholder="Enter text to encrypt" required></textarea>
+            <button type="submit">Encrypt</button>
+        </form>
+        <form action="/decrypt" method="post">
+            <textarea name="ciphertext" placeholder="Enter text to decrypt" required></textarea>
+            <button type="submit">Decrypt</button>
+        </form>
+        {% if encrypted_text %}
+            <h2>Encrypted Text:</h2>
+            <p id="encrypted-text">{{ encrypted_text }}</p>
+            <button onclick="copyToClipboard('encrypted-text')">Copy</button>
+        {% endif %}
+        {% if decrypted_text %}
+            <h2>Decrypted Text:</h2>
+            <p id="decrypted-text">{{ decrypted_text }}</p>
+            <button onclick="copyToClipboard('decrypted-text')">Copy</button>
+        {% endif %}
+    </div>
+</body>
+</html>
